@@ -20,4 +20,3 @@
 12.在service方法中，对当前请求的客户端做响应
 ```
 
-![[Pasted image 20260306235956.png]]![image-20260307000034177](https://cdn.jsdelivr.net/gh/Q1026076464/picx-images-hosting/article/20260307000034276.png)
