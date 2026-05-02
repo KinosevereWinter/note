@@ -150,3 +150,17 @@ sudo setenforce 0
 永久解决方案：不要直接关闭 SELinux，而是为你的项目目录设置正确的 SELinux 上下文。
 
 # 为你的项目目录设置 httpd 系统内容标签 sudo semanage fcontext -a -t httpd_sys_content_t "/home/user/myapp/dist(/.*)?" sudo restorecon -Rv /home/user/myapp/dist
+
+
+如果 出现
+[root@localhost nginx]# sudo setenforce 0
+[root@localhost nginx]# sudo semanage fcontext -a -t httpd_sys_content_t "/home/project/ruoyi/dist(/.*)?"
+sudo：semanage：找不到命令
+[root@localhost nginx]# sudo semanage fcontext -a -t httpd_sys_content_t "/home/project/ruoyi/dist(/.*)?"
+sudo：semanage：找不到命令
+[root@localhost nginx]# 
+
+
+第一步：解决 semanage 命令找不到的问题（可选，如果你以后需要管理 SELinux）
+如果你想使用 semanage 来管理 SELinux 上下文，你需要先安装它：
+sudo yum install policycoreutils-python-utils
