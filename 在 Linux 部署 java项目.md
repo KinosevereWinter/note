@@ -66,38 +66,6 @@ javac -version
 
 
 
-
-
-
-
-### 3. 配置环境变量
-
-```
-# 编辑环境变量文件
-sudo vi /etc/profile
-
-# 在文件末尾添加以下内容
-export JAVA_HOME=/usr/local/java/jdk-21.0.3  # 根据实际目录名修改
-export PATH=$JAVA_HOME/bin:$PATH
-export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
-```
-
-### 4. 使环境变量生效
-
-```
-# 重新加载环境变量
-source /etc/profile
-
-# 验证安装
-java -version
-javac -version
-
-# 检查 JAVA_HOME
-echo $JAVA_HOME
-```
-
-
-
 ### 查看软件包的详细信息
 
 ```
@@ -118,3 +86,76 @@ rpm -q wget
 ```
 
 如果显示版本号说明已安装，如果显示 "package wget is not installed" 说明未安装。
+
+
+
+## 配置 JDK 环境变量
+
+### 1. 首先找到 JDK 的安装路径
+
+```
+# 查找 Java 安装位置
+which java
+# 输出：/usr/bin/java
+
+# 查看真实路径（通常是个符号链接）
+ls -l /usr/bin/java
+# 输出：/usr/bin/java -> /etc/alternatives/java
+
+ls -l /etc/alternatives/java
+# 输出真实的 JDK 路径，如：/usr/lib/jvm/java-21-openjdk-21.0.3.0.7-1.el7_9.x86_64/bin/java
+
+# 或者直接查看 JDK 目录
+ls /usr/lib/jvm/
+```
+
+### 2. 配置环境变量
+
+编辑环境变量配置文件：
+
+```
+# 使用 vi 编辑器
+vi /etc/profile
+
+# 或者使用 nano（如果已安装）
+nano /etc/profile
+```
+
+在文件末尾添加以下内容：
+
+```
+# JDK 环境配置
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-21.0.3.0.7-1.el7_9.x86_64  # 根据实际路径修改
+export JRE_HOME=$JAVA_HOME/jre
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
+export PATH=$JAVA_HOME/bin:$PATH
+```
+
+注意：请将 `JAVA_HOME` 路径替换为您实际的 JDK 安装路径。
+
+### 3. 使配置生效
+
+```
+# 重新加载环境变量
+source /etc/profile
+
+# 或者退出重新登录
+logout
+```
+
+### 4. 验证配置
+
+```
+# 检查环境变量
+echo $JAVA_HOME
+echo $PATH
+
+# 验证 Java 版本
+java -version
+javac -version
+
+# 测试编译和运行
+echo 'public class Test { public static void main(String[] args) { System.out.println("JDK配置成功!"); } }' > Test.java
+javac Test.java
+java Test
+```
