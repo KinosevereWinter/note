@@ -37,5 +37,5 @@ bash
 
 
 
-mysql -u root -p mydb < /root/backup.sql
+mysql -u root -p 数据库名 < /root/backup.sql  sql 文件
 输入密码后，如果没有报错，即表示导入成功。
