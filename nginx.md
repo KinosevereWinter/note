@@ -92,3 +92,42 @@ sudo nginx -t
 
 
 把打包好的前端文件 
+
+
+
+1.定位 nginx 配置文件路径 
+sudo nginx -t
+
+如果 Nginx 正常运行，它会返回类似这样的信息：
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+其中 /etc/nginx/nginx.conf 就是主配置文件的绝对路径
+### 配置 Nginx
+
+在服务器上创建 Nginx 配置文件：
+
+server {
+    listen 80;
+    server_name your-domain.com;  # 您的域名或IP
+    
+    root /usr/share/nginx/html;
+    index index.html;
+    
+    # 处理前端路由
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+    
+    # 代理 API 请求到后端
+    location /prod-api/ {
+        proxy_pass http://localhost:8080/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+    
+    # 静态文件缓存
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+}
