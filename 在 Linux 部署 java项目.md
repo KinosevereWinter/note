@@ -101,20 +101,20 @@ echo $JAVA_HOME
 ### 查看软件包的详细信息
 
 ```
-# 查看已安装的 wget 详细信息
-rpm -qi wget
+# 快速检查是否安装
+rpm -q 软件名
 
-# 显示包括：版本、发行号、安装时间、描述等
+# 查看详细信息
+rpm -qi 软件名
+
+# 搜索相关软件
+rpm -qa | grep 关键词
 ```
 
-### 3. 列出所有已安装的软件包
+例如检查 wget：
 
 ```
-# 列出所有已安装的 RPM 包
-rpm -qa
-
-# 结合 grep 搜索特定软件
-rpm -qa | grep wget
-rpm -qa | grep java
-rpm -qa | grep mysql
+rpm -q wget
 ```
+
+如果显示版本号说明已安装，如果显示 "package wget is not installed" 说明未安装。
