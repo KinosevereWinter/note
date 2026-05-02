@@ -49,3 +49,35 @@ java -version
 # 检查 javac 版本
 javac -version
 ```
+
+
+
+
+
+
+
+### 3. 配置环境变量
+
+```
+# 编辑环境变量文件
+sudo vi /etc/profile
+
+# 在文件末尾添加以下内容
+export JAVA_HOME=/usr/local/java/jdk-21.0.3  # 根据实际目录名修改
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+```
+
+### 4. 使环境变量生效
+
+```
+# 重新加载环境变量
+source /etc/profile
+
+# 验证安装
+java -version
+javac -version
+
+# 检查 JAVA_HOME
+echo $JAVA_HOME
+```
