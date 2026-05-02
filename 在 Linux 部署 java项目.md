@@ -95,3 +95,26 @@ javac -version
 # 检查 JAVA_HOME
 echo $JAVA_HOME
 ```
+
+
+
+### 查看软件包的详细信息
+
+```
+# 查看已安装的 wget 详细信息
+rpm -qi wget
+
+# 显示包括：版本、发行号、安装时间、描述等
+```
+
+### 3. 列出所有已安装的软件包
+
+```
+# 列出所有已安装的 RPM 包
+rpm -qa
+
+# 结合 grep 搜索特定软件
+rpm -qa | grep wget
+rpm -qa | grep java
+rpm -qa | grep mysql
+```
