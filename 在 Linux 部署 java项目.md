@@ -178,3 +178,79 @@ alternatives --set javac /usr/lib/jvm/java-21-openjdk-21.0.3.0.7-1.el7_9.x86_64/
 ```
 
 
+## 部署 Java 项目的基本步骤
+
+### 1. 准备项目文件
+
+```
+# 创建项目目录
+mkdir -p /opt/myjavaapp
+cd /opt/myjavaapp
+
+# 上传您的 jar 文件或 war 文件
+
+# mv [选项] 源文件或目录 目标文件或目录
+
+```
+
+### 2. 运行 Java 项目
+
+```
+# 运行 jar 包
+java -jar your-application.jar
+
+# 或者指定配置文件
+java -jar your-application.jar --spring.config.location=application.properties
+
+# 后台运行
+nohup java -jar your-application.jar > app.log 2>&1 &
+```
+
+### 3. 检查进程
+
+```
+# 查看 Java 进程
+ps -ef | grep java
+
+# 查看端口占用
+netstat -tlnp | grep java
+```
+
+## 快速配置脚本
+
+您可以创建一个自动配置脚本：
+
+```
+#!/bin/bash
+# auto_config_java.sh
+
+# 查找 JDK 路径
+JAVA_PATH=$(ls -d /usr/lib/jvm/java-* | head -1)
+
+# 备份原有配置
+cp /etc/profile /etc/profile.bak
+
+# 添加环境变量
+echo "export JAVA_HOME=$JAVA_PATH" >> /etc/profile
+echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> /etc/profile
+echo "export CLASSPATH=.:\$JAVA_HOME/lib" >> /etc/profile
+
+# 生效配置
+source /etc/profile
+
+# 验证配置
+echo "JAVA_HOME: $JAVA_HOME"
+java -version
+```
+
+## 常见问题解决
+
+如果遇到权限问题：
+
+```
+# 给执行权限
+chmod +x your-application.jar
+
+# 如果端口被占用，使用其他端口
+java -jar your-application.jar --server.port=8081
+```
