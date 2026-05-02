@@ -137,6 +137,32 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 注意：请将 `JAVA_HOME` 路径替换为您实际的 JDK 安装路径。
 
+## 快速配置脚本
+
+您可以创建一个自动配置脚本：
+
+```
+#!/bin/bash
+# auto_config_java.sh
+
+# 查找 JDK 路径
+JAVA_PATH=$(ls -d /usr/lib/jvm/java-* | head -1)
+
+# 备份原有配置
+cp /etc/profile /etc/profile.bak
+
+# 添加环境变量
+echo "export JAVA_HOME=$JAVA_PATH" >> /etc/profile
+echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> /etc/profile
+echo "export CLASSPATH=.:\$JAVA_HOME/lib" >> /etc/profile
+
+# 生效配置
+source /etc/profile
+
+# 验证配置
+echo "JAVA_HOME: $JAVA_HOME"
+java -version
+
 ### 3. 使配置生效
 
 ```
@@ -214,33 +240,7 @@ ps -ef | grep java
 
 # 查看端口占用
 netstat -tlnp | grep java
-```
-
-## 快速配置脚本
-
-您可以创建一个自动配置脚本：
-
-```
-#!/bin/bash
-# auto_config_java.sh
-
-# 查找 JDK 路径
-JAVA_PATH=$(ls -d /usr/lib/jvm/java-* | head -1)
-
-# 备份原有配置
-cp /etc/profile /etc/profile.bak
-
-# 添加环境变量
-echo "export JAVA_HOME=$JAVA_PATH" >> /etc/profile
-echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> /etc/profile
-echo "export CLASSPATH=.:\$JAVA_HOME/lib" >> /etc/profile
-
-# 生效配置
-source /etc/profile
-
-# 验证配置
-echo "JAVA_HOME: $JAVA_HOME"
-java -version
+`
 ```
 
 ## 常见问题解决
