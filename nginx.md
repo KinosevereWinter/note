@@ -164,3 +164,7 @@ sudo：semanage：找不到命令
 第一步：解决 semanage 命令找不到的问题（可选，如果你以后需要管理 SELinux）
 如果你想使用 semanage 来管理 SELinux 上下文，你需要先安装它：
 sudo yum install policycoreutils-python-utils
+
+
+
+tail -f /var/log/nginx/error.log
