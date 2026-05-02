@@ -2,6 +2,20 @@
 
 jdk :21
 
+先安装
+### 直接使用 yum 安装 wget
+
+```
+# 最简单的安装方式
+yum install -y wget
+
+# 验证安装
+wget --version
+```
+
+
+
+
 
 常用指令
 检查 
