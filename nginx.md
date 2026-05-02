@@ -101,6 +101,9 @@ sudo nginx -t
 如果 Nginx 正常运行，它会返回类似这样的信息：
 nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 其中 /etc/nginx/nginx.conf 就是主配置文件的绝对路径
+
+
+
 ### 配置 Nginx
 
 在服务器上创建 Nginx 配置文件：
