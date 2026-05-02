@@ -163,3 +163,18 @@ echo 'public class Test { public static void main(String[] args) { System.out.pr
 javac Test.java
 java Test
 ```
+
+
+
+## 使用 alternatives 配置默认 Java（如果有多个版本）
+
+```
+# 查看所有 Java 版本
+alternatives --config java
+
+# 设置默认 Java 版本
+alternatives --set java /usr/lib/jvm/java-21-openjdk-21.0.3.0.7-1.el7_9.x86_64/bin/java
+alternatives --set javac /usr/lib/jvm/java-21-openjdk-21.0.3.0.7-1.el7_9.x86_64/bi
+```
+
+
