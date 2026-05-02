@@ -41,7 +41,7 @@ systemctl status redis
 打开配置文件
 通常 Redis 的配置文件位于 /etc/redis.conf。使用 vim 或你喜欢的编辑器打开它：
 
-vim /etc/redis.conf
+vi /etc/redis.conf
 
 
 搜索 requirepass
