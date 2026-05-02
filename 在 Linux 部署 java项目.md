@@ -254,3 +254,11 @@ chmod +x your-application.jar
 # 如果端口被占用，使用其他端口
 java -jar your-application.jar --server.port=8081
 ```
+
+
+
+
+
+
+
+![[Pasted image 20260502225149.
