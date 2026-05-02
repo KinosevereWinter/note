@@ -134,3 +134,19 @@ server {
         add_header Cache-Control "public, immutable";
     }
 }
+
+
+
+
+### 检查 SELinux (仅限 CentOS/RHEL)
+如果你的系统是 CentOS 或 RHEL，SELinux 可能会阻止 Nginx 访问非标准目录（如 `/home` 下的目录）。
+
+临时关闭 SELinux 测试：
+
+sudo setenforce 0
+执行后，刷新浏览器。如果 403 错误消失，说明就是 SELinux 的问题。
+
+
+永久解决方案：不要直接关闭 SELinux，而是为你的项目目录设置正确的 SELinux 上下文。
+
+# 为你的项目目录设置 httpd 系统内容标签 sudo semanage fcontext -a -t httpd_sys_content_t "/home/user/myapp/dist(/.*)?" sudo restorecon -Rv /home/user/myapp/dist
