@@ -1,10 +1,10 @@
-系统:Linux localhost.localdomain 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
 
-jdk :21
 ## 1.先确认本地环境是什么？
 
 ```
-1. 
+1. 通过ostnamectl命令可以提供系统的详细信息，包括操作系统、内核、架构等：
+   hostnamectl
+
 
 
 
