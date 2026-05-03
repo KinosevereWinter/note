@@ -6,12 +6,16 @@
    hostnamectl
 
 
-
-
+2. 检查 which 命令是否存在；如这里就是查的mysql；返回的就是mysql的路径。
+	which mysql
 
 ```
 
 
+
+## 2.安装项目需要的数据库
+
+### 2.1安装Mysql数据库
 
 
 
