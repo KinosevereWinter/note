@@ -12,9 +12,10 @@
 ```
 
 
-### 2 确认项目需要那些软件
+## 2 确认项目需要那些软件
+### 2.1 安装 Redis
 
-### 2.1.1第一步：安装 Redis
+#### 2.1.1第一步：安装 Redis
 由于你的系统可能默认源中的 Redis 版本较旧，为了获得更好的兼容性，建议先安装 EPEL 仓库（Extra Packages for Enterprise Linux），或者使用 Remi 仓库。
 执行以下命令：
 ```
@@ -25,7 +26,7 @@
  1. 安装 Redis yum install redis -y
 ```
 `
-### 2.1.2第二步：启动并设置开机自启
+#### 2.1.2第二步：启动并设置开机自启
 安装完成后，我们需要启动 Redis，并设置它随系统启动自动运行。
 **执行以下命令：**
 
@@ -38,7 +39,7 @@ systemctl enable redis
 systemctl status redis
 ```
 
-### 2.1.3 第三步：验证 Redis 是否正常工作
+#### 2.1.3 第三步：验证 Redis 是否正常工作
 
 为了确保 Java 程序能连上，我们可以简单测试一下：
 
@@ -46,9 +47,7 @@ systemctl status redis
 # 进入 Redis 命令行客户端 redis-cli # 在出现的 `127.0.0.1:6379>` 提示符下输入： ping
 
 ```
-### 2.1.4修改配置文件
-
-#### 第一步：修改 Redis 配置文件（服务端)
+#### 2.1.4修改配置文件
 
 1.打开配置文件
 通常 Redis 的配置文件位于 /etc/redis.conf。
@@ -65,10 +64,22 @@ requirepass    admin
 
 3.保存并退出
 按 Esc 键，输入 :wq 保存并退出。如果误操作就输入:q! 
-
 为了让配置生效，必须重启 Redis。在终端执行：
 
 systemctl restart redis
+
+### 2.2 安装 Msql
+
+### 1. 检查是否已经安装了 mysql
+
+```
+检查是否已安装(这里是以wget)
+rpm -qa | grep mysql 
+
+检查 wget 命令是否存在
+which mysql
+```
+
 
 
 
