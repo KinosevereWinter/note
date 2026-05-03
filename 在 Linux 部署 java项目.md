@@ -59,10 +59,9 @@ vi /etc/redis.conf
 在编辑器中按 / 键，输入 requirepass，然后按回车查找。
 你会看到一行被注释掉的代码：# requirepass foobared
 置你的密码去掉行首的 # 号（取消注释）。将 foobared 修改为你想要设置的密码。
-示例（假设密码设为 ruoyi123）：
+示例（假设密码设为 admin）：
 
-
-requirepass ruoyi123
+requirepass   admin
 
 
 保存并退出
