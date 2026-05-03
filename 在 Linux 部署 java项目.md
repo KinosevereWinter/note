@@ -313,6 +313,19 @@ java -jar your-application.jar --spring.config.location=application.properties
 nohup java -jar your-application.jar > app.log 2>&1 &
 ```
 
+## 🔧 高级配置
+
+### 使用 alternatives 配置默认 Java
+
+```
+# 查看所有 Java 版本
+alternatives --config java
+
+# 设置默认 Java 版本
+alternatives --set java /usr/lib/jvm/jdk-21/bin/java
+alternatives --set javac /usr/lib/jvm/jdk-21/bin/javac
+```
+
 ##### 4.5检查进程
 
 ```
