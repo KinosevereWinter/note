@@ -63,5 +63,3 @@ journalctl -u ruoyi -f
 查看状态：systemctl status ruoyi
 
 
-
-第四步：日志管理与运维命令
