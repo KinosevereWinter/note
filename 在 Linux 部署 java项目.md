@@ -26,7 +26,7 @@
  1. 安装 Redis yum install redis -y
 ```
 `
-### 第二步：启动并设置开机自启
+### 2.1.2第二步：启动并设置开机自启
 安装完成后，我们需要启动 Redis，并设置它随系统启动自动运行。
 **执行以下命令：**
 
@@ -39,33 +39,28 @@ systemctl enable redis
 systemctl status redis
 ```
 
-### 第三步：验证 Redis 是否正常工作
+### 2.1.3 第三步：验证 Redis 是否正常工作
 
 为了确保 Java 程序能连上，我们可以简单测试一下：
 
 ```
 # 进入 Redis 命令行客户端 redis-cli # 在出现的 `127.0.0.1:6379>` 提示符下输入： ping
+
 ```
-给 Redis 设置密码是保障数据安全的重要一步。对于你的若依（RuoYi）系统，我们需要分两步走：第一步是修改 Redis 服务端的配置文件，开启并设置密码；第二步是修改若依项目的配置文件，让项目知道新密码
+### 2.1.4修改配置文件
 
-
-第一步：修改 Redis 配置文件（服务端)
+#### 第一步：修改 Redis 配置文件（服务端)
 
 打开配置文件
-通常 Redis 的配置文件位于 /etc/redis.conf。使用 vim 或你喜欢的编辑器打开它：
+通常 Redis 的配置文件位于 /etc/redis.conf。
 
 vi /etc/redis.conf
 
-
-搜索 requirepass
 在编辑器中按 / 键，输入 requirepass，然后按回车查找。
 你会看到一行被注释掉的代码：# requirepass foobared
-
-
-置你的密码
-去掉行首的 # 号（取消注释）。
-将 foobared 修改为你想要设置的密码。
+置你的密码去掉行首的 # 号（取消注释）。将 foobared 修改为你想要设置的密码。
 示例（假设密码设为 ruoyi123）：
+
 
 requirepass ruoyi123
 
