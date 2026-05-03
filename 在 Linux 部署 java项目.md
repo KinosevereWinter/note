@@ -12,7 +12,7 @@
 ```
 
 
-### 2.1安装Redis数据库
+### 2 确认项目需要那些软件
 
 ### 2.1.1第一步：安装 Redis
 由于你的系统可能默认源中的 Redis 版本较旧，为了获得更好的兼容性，建议先安装 EPEL 仓库（Extra Packages for Enterprise Linux），或者使用 Remi 仓库。
