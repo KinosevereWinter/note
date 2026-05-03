@@ -51,21 +51,21 @@ systemctl status redis
 
 #### 第一步：修改 Redis 配置文件（服务端)
 
-打开配置文件
+1.打开配置文件
 通常 Redis 的配置文件位于 /etc/redis.conf。
 
 vi /etc/redis.conf
 
-在编辑器中按 / 键，输入 requirepass，然后按回车查找。
+2.在编辑器中按 / 键，输入 requirepass，然后按回车查找。
 你会看到一行被注释掉的代码：# requirepass foobared
 置你的密码去掉行首的 # 号（取消注释）。将 foobared 修改为你想要设置的密码。
 示例（假设密码设为 admin）：
 
-requirepass   admin
+requirepass    admin
 
 
-保存并退出
-按 Esc 键，输入 :wq 保存并退出。
+3.保存并退出
+按 Esc 键，输入 :wq 保存并退出。如果s'w
 
 为了让配置生效，必须重启 Redis。在终端执行：
 
