@@ -323,3 +323,39 @@ ps -ef | grep java
 netstat -tlnp | grep java
 
 ```
+
+
+
+## 🛠️ 常见问题解决
+
+```
+# 权限问题
+chmod +x your-application.jar
+
+# 端口被占用
+java -jar your-application.jar --server.port=8081
+
+# 内存设置
+java -Xms512m -Xmx1024m -jar your-application.jar
+
+# 检查环境变量
+env | grep JAVA
+
+
+#监控项目运行
+# 查看 Java 进程
+ps -ef | grep java
+
+# 查看端口占用
+netstat -tlnp | grep java
+
+# 查看日志
+tail -f app.log
+
+# 动态查看日志
+
+tail -f /日志文件的路径位置/ 日志文件
+
+(按 ctrl + c 退出实时查看模式)
+
+```
