@@ -70,7 +70,7 @@ systemctl restart redis
 
 ### 2.2 安装 Msql
 
-### 1. 检查是否已经安装了 mysql
+#### 1. 检查是否已经安装了 mysql
 
 ```
 检查是否已安装(这里是以wget)
@@ -80,51 +80,112 @@ rpm -qa | grep mysql
 which mysql
 ```
 
-
-
-
-
-
-先安装
-### 直接使用 yum 安装 wget
+#### 2.配置阿里云镜像源并安装依赖
+由于官方仓库已失效，我们先替换为阿里云的镜像源，并安装必要的工具：
 
 ```
-# 最简单的安装方式
-yum install -y wget
+# 1. 备份原有 yum 源并下载阿里云源 
 
-# 验证安装
-wget --version
+mv /etc/yum.repos.d /etc/yum.repos.d.bak 
+mkdir /etc/yum.repos.d 
+wget -O /etc/yum.repos.d/CentOS-Base.repo 
+https://mirrors.aliyun.com/repo/Centos-7.repo 
+
+# 2. 清理并重建 yum 缓存 
+
+yum clean all 
+yum makecache 
+
+# 3. 安装常用依赖工具 
+
+yum install -y wget libaio perl net-tools
+
+```
+
+#### 3.添加 MySQL 官方 YUM 仓库并安装
+
+这里以安装稳定且常用的 MySQL 5.7 版本为例：
+
+```
+# 1. 下载并安装 MySQL 官方的 YUM 仓库配置包（这里指定 5.7 版本） 
+
+rpm -Uvh https://repo.mysql.com/mysql57-community-release-el7-11.noarch.rpm 
+
+# 2. 导入官方 GPG 密钥（避免安装时出现签名报错） 
+
+rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022 
+
+# 3. 使用 yum 安装 MySQL 服务端 
+
+yum install -y mysql-community-server
+```
+#### 4.启动 MySQL 并获取初始密码
+
+
+```
+# 1. 启动 MySQL 服务，并设置开机自启 
+
+systemctl start mysqld systemctl enable mysqld 
+
+# 2. 查看 MySQL 自动生成的临时密码（冒号后面的就是密码，记得复制保存） 
+
+grep 'temporary password' /var/log/mysqld.log
+
+```
+
+#### 5.登录并修改密码
+MySQL 5.7 默认开启了密码强度校验，新密码必须包含大小写字母、数字和特殊符号（例如：Mysql@1234）。
+```
+# 1. 使用临时密码登录 
+
+MySQL mysql -u root -p 
+# （输入刚才查到的临时密码后回车） 
+
+# 2. 在 mysql> 提示符下，修改 root 密码（将 '你的新密码' 替换为你设置的强密码） 
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY '你的新密码'; 
+
+# 3. 刷新权限并退出 
+
+FLUSH PRIVILEGES; exit;
+
+```
+
+####  6. 开放防火墙端口（可选）
+如果你需要从本地电脑或其他服务器远程连接这个数据库，需要开放 3306 端口：
+
+```
+firewall-cmd --add-port=3306/tcp --permanent 
+firewall-cmd --reload
 ```
 
 
-常用指令
-检查 
+#### 7.数据库导入数据
 
-# 检查是否已安装(这里是以wget)
-rpm -qa | grep wget 
-
-# 检查 wget 命令是否存在
-which wget
-
-
-
-安装 jdk
-## 方法一：使用 RPM 包安装（推荐）
-
-### 1. 下载 JDK 21 RPM 包
+#### 方法一：导入 SQL 文件（最常用）
 
 ```
-# 进入下载目录
-cd /usr/local/src
+如果你有一个 .sql 后缀的备份文件（例如 backup.sql），这是最标准的方法。数据库名称在没有导入之前就存在命令格式如下：
 
-# 下载 JDK 21 RPM 包（选择适合的版本）
-wget https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.rpm
+mysql -u [用户名] -p [数据库名] < [文件路径]
 
-# 或者使用 OpenJDK
-wget https://download.java.net/java/GA/jdk21.0.3/6b9c3db954894a4fbcc32f137aefb50f/9/GPL/openjdk-21.0.3_linux-x64_bin.rpm
 ```
 
-### 2. 安装 JDK 21
+
+
+### 2.3 安装 JDK
+
+#### 1 检查是否已经 安装
+
+```
+# 检查是否已安装
+rpm -qa | grep java 
+
+# 检查 java 命令是否存在
+which java
+```
+
+#### 2. 安装 JDK 21
 
 ```
 # 安装 RPM 包
@@ -134,7 +195,7 @@ sudo rpm -ivh jdk-21_linux-x64_bin.rpm
 sudo yum localinstall jdk-21_linux-x64_bin.rpm
 ```
 
-### 3. 验证安装
+#### 3. 验证安装
 
 ```
 # 检查 Java 版本
@@ -144,34 +205,9 @@ java -version
 javac -version
 ```
 
+####  4配置 JDK 环境变量
 
-
-### 查看软件包的详细信息
-
-```
-# 快速检查是否安装
-rpm -q 软件名
-
-# 查看详细信息
-rpm -qi 软件名
-
-# 搜索相关软件
-rpm -qa | grep 关键词
-```
-
-例如检查 wget：
-
-```
-rpm -q wget
-```
-
-如果显示版本号说明已安装，如果显示 "package wget is not installed" 说明未安装。
-
-
-
-## 配置 JDK 环境变量
-
-### 1. 首先找到 JDK 的安装路径
+#####  4.1 首先找到 JDK 的安装路径
 
 ```
 # 查找 Java 安装位置
@@ -189,7 +225,7 @@ ls -l /etc/alternatives/java
 ls /usr/lib/jvm/
 ```
 
-### 2. 配置环境变量
+##### 4.2 配置环境变量
 
 编辑环境变量配置文件：
 
@@ -217,7 +253,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 注意：请将 `JAVA_HOME` 路径替换为您实际的 JDK 安装路径。
 
-## 快速配置脚本
+##### 4.3快速配置脚本
 
 您可以创建一个自动配置脚本：
 
@@ -245,17 +281,15 @@ java -version
 
 ### 3. 使配置生效
 
-```
-# 重新加载环境变量
+重新加载环境变量
 source /etc/profile
 
-# 或者退出重新登录
+或者退出重新登录
+
 logout
-```
 
-### 4. 验证配置
 
-```
+
 # 检查环境变量
 echo $JAVA_HOME
 echo $PATH
@@ -263,43 +297,10 @@ echo $PATH
 # 验证 Java 版本
 java -version
 javac -version
-
-# 测试编译和运行
-echo 'public class Test { public static void main(String[] args) { System.out.println("JDK配置成功!"); } }' > Test.java
-javac Test.java
-java Test
 ```
 
 
-
-## 使用 alternatives 配置默认 Java（如果有多个版本）
-
-```
-# 查看所有 Java 版本
-alternatives --config java
-
-# 设置默认 Java 版本
-alternatives --set java /usr/lib/jvm/java-21-openjdk-21.0.3.0.7-1.el7_9.x86_64/bin/java
-alternatives --set javac /usr/lib/jvm/java-21-openjdk-21.0.3.0.7-1.el7_9.x86_64/bi
-```
-
-
-## 部署 Java 项目的基本步骤
-
-### 1. 准备项目文件
-
-```
-# 创建项目目录
-mkdir -p /opt/myjavaapp
-cd /opt/myjavaapp
-
-# 上传您的 jar 文件或 war 文件
-
-# mv [选项] 源文件或目录 目标文件或目录
-
-```
-
-### 2. 运行 Java 项目
+#####  4.4 运行 Java 项目
 
 ```
 # 运行 jar 包
@@ -312,7 +313,7 @@ java -jar your-application.jar --spring.config.location=application.properties
 nohup java -jar your-application.jar > app.log 2>&1 &
 ```
 
-### 3. 检查进程
+##### 4.5检查进程
 
 ```
 # 查看 Java 进程
@@ -320,21 +321,5 @@ ps -ef | grep java
 
 # 查看端口占用
 netstat -tlnp | grep java
-`
-```
-
-## 常见问题解决
-
-如果遇到权限问题：
 
 ```
-# 给执行权限
-chmod +x your-application.jar
-
-# 如果端口被占用，使用其他端口
-java -jar your-application.jar --server.port=8081
-
-
-
-
-nohup java -jar /home/project/ruoyi/ruoyi-admin.jar --server.port=8081 > app.log 2>&1 &
