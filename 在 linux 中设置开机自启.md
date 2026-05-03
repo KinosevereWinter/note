@@ -61,3 +61,7 @@ journalctl -u ruoyi -f
 停止服务：systemctl stop ruoyi
 重启服务：systemctl restart ruoyi
 查看状态：systemctl status ruoyi
+
+
+
+第四步：日志管理与运维命令
